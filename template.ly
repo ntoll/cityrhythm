@@ -13,7 +13,7 @@ Key = { \key bes \major }
 
 %%%%%%%%%%%% Instrumentation %%%%%%%%%%%%%%%%
 
-cone = \transpose c d \relative c' {
+cone = \transpose c d {
   \Key
     $briggate_at_mcdonalds
 }
@@ -28,7 +28,7 @@ cornetone = {
   >>
 }
 
-ctwo = \transpose c d \relative c' {
+ctwo = \transpose c d {
   \Key
     $albion_street_north
 }
@@ -43,7 +43,7 @@ cornettwo = {
   >>
 }
 
-flug = \transpose c d \relative c' {
+flug = \transpose c d {
   \Key
     $albion_street_south
 }
@@ -58,7 +58,7 @@ flugelhorn = {
   >>
 }
 
-horn = \transpose c a \relative c' {
+horn = \transpose c a {
   \Key
     $dortmund_square
 }
@@ -73,7 +73,7 @@ tenorhorn = {
   >>
 }
 
-bari = \transpose c d \relative c {
+bari = \transpose c d {
   \Key
     $briggate
 }
@@ -89,7 +89,7 @@ baritone = {
 }
 
 
-tbone = \transpose c d \relative c {
+tbone = \transpose c d {
   \Key
     $commercial_street_at_lush
 }
@@ -104,7 +104,7 @@ trombone = {
   >>
 }
 
-euph = \transpose c d \relative c {
+euph = \transpose c d {
   \Key
     $headrow
 }
@@ -119,7 +119,7 @@ euphonium = {
   >>
 }
 
-bass = \transpose c a'' \relative c, {
+bass = \transpose c a'' {
   \Key
     $commercial_street_at_barratts
 }
@@ -134,7 +134,7 @@ tuba = {
   >>
 }
 
-bells = \relative c'' {
+bells = {
   \Key
     c1 | c | c |
 }
