@@ -6,9 +6,7 @@ import random
 import json
 
 t = Template(open('template.ly').read())
-data = json.load(open('renamed_weekly.json'))
-
-places = data.keys()
+all_data = json.load(open('renamed_weekly.json'))
 
 scales = [
     "a c d e g a' c' d' e' g'".split(),
@@ -50,7 +48,7 @@ patterns = [
 ]
 
 
-def pitch(scale, data):
+def pitch(data, scale):
     """Generate notes from the scale driven by the data.
 
     You can change the scale by using send()
@@ -63,14 +61,12 @@ def pitch(scale, data):
             scale = new_scale
 
 
-def rhythmn(data):
+def rhythmn(data, mn, mx):
     """Produce note durations from provided patterns based on mean intensity"""
     mean = sum(data) // len(data)
-    mn = min(data)
-    mx = max(data)
     divisor = (mx - mn) // len(patterns)
     # pick intensity based on mean value
-    intensity = patterns[mean // divisor]
+    intensity = patterns[(mean - mn) // divisor]
 
     # use the data to chose which pattern, so the process is deterministic
     index = 0
@@ -81,12 +77,11 @@ def rhythmn(data):
         yield None  # indicates a bar has been produced
 
 
-def voice(data, length=8):
+def voice(data, scale, mn, mx, length=8):
     """Generate a voice from the data, combining pitch and rhythmn"""
-    scale = random.choice(scales)
 
     bars = 0
-    for note, duration in izip(pitch(scale, data), rhythmn(data)):
+    for note, duration in izip(pitch(data, scale), rhythmn(data, mn, mx)):
         if duration is None:
             bars += 1
             yield '|'
@@ -96,13 +91,20 @@ def voice(data, length=8):
             yield "%s%s" % (note, duration)
 
 
-with open('renamed_weekly.json') as json_data:
-    all_data = json.loads(json_data.read())
+everything = []
+for place, hours in all_data.items():
+    for data in hours.values():
+        everything.extend(data)
+everything.sort()
+MIN = everything[0]
+MAX = everything[-1]
+
 
 for place, hours in all_data.items():
     melodies[place] = "%% %s\n" % place
     for hour, data in sorted(hours.items()):
-        melody = " ".join(voice(data))
+        scale = scales[0]
+        melody = " ".join(voice(data, scale, MIN, MAX))
         melodies[place] += '%% %s\n%s\n' % (hour, melody)
 
 
