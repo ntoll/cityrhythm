@@ -5,6 +5,9 @@ from string import Template
 import random
 import json
 
+# make sure and use of random is controllably deterministic
+random.seed(sum(ord(c) for c in "leeds"))
+
 t = Template(open('template.ly').read())
 all_data = json.load(open('renamed_weekly.json'))
 
@@ -14,6 +17,7 @@ scales = [
 ]
 
 melodies = {}
+quartiles = [0, 0, 0, 0]
 
 patterns = [
     #slow'
@@ -34,13 +38,13 @@ patterns = [
     [
         '8. 16 8. 16 4. 8'.split(),
         '4. 16 16 8 8 8 8'.split(),
-        '16 16 8~ 8 8 16 16 8 16 16 8'.split(),
-        '8 8 4 8 8 8'.split()
+        '16 16 8 8 8 16 16 8 16 16 8'.split(),
+        '8 8 4 8 8 8 8'.split()
     ],
     #crazy
     [
-        ['8', '\\times 2/3 { 16', '16', '16 }', '16', '16', '16', '16',
-         '8' '8' '8', '8'],
+        ['8', '\\times 2/3 { %s16', '16', '16 }', '16', '16', '16', '16',
+         '8', '8', '8', '8'],
         '4 8. 16 8 4 8'.split(),
         '16 16 16 16 8 8 16 16 16 16 8 8'.split(),
         '16 16 16 16 4 8 16 16 8 8'.split()
@@ -64,15 +68,21 @@ def pitch(data, scale):
 def rhythmn(data, mn, mx):
     """Produce note durations from provided patterns based on mean intensity"""
     mean = sum(data) // len(data)
-    divisor = (mx - mn) // len(patterns)
-    # pick intensity based on mean value
-    intensity = patterns[(mean - mn) // divisor]
+    # pick intensity based on mean value for this hour based across quartiles
+    # for all data
+    i = 0
+    for quartile, pattern in izip(quartiles, patterns):
+        if mean < quartile:
+            break  # patten is now set correctly
+        else:
+            i += 1
+    print "intensity %d " % i
 
     # use the data to chose which pattern, so the process is deterministic
     index = 0
     for d in data:
-        index = (index + d) % len(intensity)
-        for duration in intensity[index]:
+        index = (index + d) % len(pattern)
+        for duration in pattern[index]:
             yield duration
         yield None  # indicates a bar has been produced
 
@@ -87,6 +97,9 @@ def voice(data, scale, mn, mx, length=8):
             yield '|'
             if bars == length:
                 raise StopIteration()
+        elif '%s' in duration:
+            # more complex templated duration (e.g. tuplets)
+            yield duration % note
         else:
             yield "%s%s" % (note, duration)
 
@@ -96,16 +109,26 @@ for place, hours in all_data.items():
     for data in hours.values():
         everything.extend(data)
 everything.sort()
+total = len(everything)
 MIN = everything[0]
 MAX = everything[-1]
+# TODO generalise to n rather than 4
+quartiles[0] = MIN
+quartiles[1] = everything[total // 4]
+quartiles[2] = everything[total // 2]
+quartiles[3] = everything[total // 4 * 3]
+print MIN, MAX, quartiles
 
 
 for place, hours in all_data.items():
     melodies[place] = "%% %s\n" % place
+    print place
     for hour, data in sorted(hours.items()):
         scale = scales[0]
+        print "  %s " % hour,
         melody = " ".join(voice(data, scale, MIN, MAX))
-        melodies[place] += '%% %s\n%s\n' % (hour, melody)
+        melodies[place] += '\\mark \\markup { "%s" }\n%s \\bar "||"\n\\break\n' % (
+            hour, melody.rstrip('|'))
 
 
 result = t.substitute(melodies)
