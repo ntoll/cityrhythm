@@ -18,7 +18,14 @@ scales = [
 
 melodies = {}
 
+# ordered set of rhythmn patterns, increasing in intensity
 patterns = [
+    [
+        'r1'.split(),
+        'r2 2'.split(),
+        '2 r2'.split(),
+        'r2. 4'.split(),
+    ],
     #slow'
     [
         '1'.split(),
@@ -72,12 +79,10 @@ def rhythmn(data, mn, mx):
     mean = sum(data) // len(data)
     # pick intensity based on mean value for this hour based across thresholds
     # for all data
-    i = 0
-    for quartile, pattern in izip(thresholds, patterns):
-        if mean < quartile:
-            break  # patten is now set correctly
-        else:
-            i += 1
+    for i, threshold in enumerate(thresholds):
+        if mean < threshold:
+            break
+    pattern = patterns[i]
     print "intensity %d " % i
 
     # use the data to chose which pattern, so the process is deterministic
@@ -93,17 +98,22 @@ def voice(data, scale, mn, mx, length=8):
     """Generate a voice from the data, combining pitch and rhythmn"""
 
     bars = 0
-    for note, duration in izip(pitch(data, scale), rhythmn(data, mn, mx)):
+    note_iter = pitch(data, scale)
+    for duration in rhythmn(data, mn, mx):
         if duration is None:
             bars += 1
             yield '|'
             if bars == length:
                 raise StopIteration()
-        elif '%s' in duration:
-            # more complex templated duration (e.g. tuplets)
-            yield duration % note
+        elif duration[0] == 'r':
+            yield duration
         else:
-            yield "%s%s" % (note, duration)
+            note = next(note_iter)
+            if '%s' in duration:
+                # more complex templated duration (e.g. tuplets)
+                yield duration % note
+            else:
+                yield "%s%s" % (note, duration)
 
 
 everything = []
@@ -118,7 +128,7 @@ MAX = everything[-1]
 
 bucket_size = len(everything) // len(patterns)
 for i, _ in enumerate(patterns):
-    thresholds[i] = everything[i * bucket_size]
+    thresholds[i] = everything[(i + 1) * bucket_size]
 print MIN, MAX, thresholds
 
 
