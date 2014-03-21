@@ -17,7 +17,6 @@ scales = [
 ]
 
 melodies = {}
-quartiles = [0, 0, 0, 0]
 
 patterns = [
     #slow'
@@ -51,6 +50,9 @@ patterns = [
     ],
 ]
 
+# intensity bucket thresholds
+thresholds = [0] * len(patterns)
+
 
 def pitch(data, scale):
     """Generate notes from the scale driven by the data.
@@ -68,10 +70,10 @@ def pitch(data, scale):
 def rhythmn(data, mn, mx):
     """Produce note durations from provided patterns based on mean intensity"""
     mean = sum(data) // len(data)
-    # pick intensity based on mean value for this hour based across quartiles
+    # pick intensity based on mean value for this hour based across thresholds
     # for all data
     i = 0
-    for quartile, pattern in izip(quartiles, patterns):
+    for quartile, pattern in izip(thresholds, patterns):
         if mean < quartile:
             break  # patten is now set correctly
         else:
@@ -112,12 +114,12 @@ everything.sort()
 total = len(everything)
 MIN = everything[0]
 MAX = everything[-1]
-# TODO generalise to n rather than 4
-quartiles[0] = MIN
-quartiles[1] = everything[total // 4]
-quartiles[2] = everything[total // 2]
-quartiles[3] = everything[total // 4 * 3]
-print MIN, MAX, quartiles
+
+
+bucket_size = len(everything) // len(patterns)
+for i, _ in enumerate(patterns):
+    thresholds[i] = everything[i * bucket_size]
+print MIN, MAX, thresholds
 
 
 for place, hours in all_data.items():
