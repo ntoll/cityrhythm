@@ -9,11 +9,11 @@
 %%%%%%%%%%%% Keys and stuff %%%%%%%%%%%%%%%%%
 
 global = { \time 4/4 }
-Key = { \key bes \major }
+Key = { \key c \major }
 
 %%%%%%%%%%%% Instrumentation %%%%%%%%%%%%%%%%
 
-cone = \transpose c d {
+cone = \transpose c d' {
   \Key
     % briggate_at_mcdonalds
 \mark \markup { "00:00" }
@@ -95,13 +95,14 @@ cornetone = {
   \global
   \set Staff.instrumentName = #"Cornet 1"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \cone
   >>
 }
 
-ctwo = \transpose c d {
+ctwo = \transpose c d' {
   \Key
     % albion_street_north
 \mark \markup { "00:00" }
@@ -183,13 +184,14 @@ cornettwo = {
   \global
   \set Staff.instrumentName = #"Cornet 2"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \ctwo
   >>
 }
 
-flug = \transpose c d {
+flug = \transpose c d' {
   \Key
     % albion_street_south
 \mark \markup { "00:00" }
@@ -271,6 +273,7 @@ flugelhorn = {
   \global
   \set Staff.instrumentName = #"Flugelhorn"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \flug
@@ -358,7 +361,8 @@ g8. g16 g8. a'16 e4. g8 | g'16 c'16 d'8 g8 d8 g16 d'16 c8 e'16 a16 e8 | d'16 g'1
 tenorhorn = {
   \global
   \set Staff.instrumentName = #"Tenor Horn"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"french horn"
+  \transposition ees'
   \clef treble
   <<
     \horn
@@ -446,7 +450,8 @@ g16 g'16 d'8 g'8 g8 e'16 e16 g8 e16 a16 a'8 | a8 e'8 d4 c'8 e'8 c'8 c8 | d8 a8 e
 baritone = {
   \global
   \set Staff.instrumentName = #"Baritone"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"french horn"
+  \transposition bes
   \clef treble
   <<
     \bari
@@ -535,8 +540,9 @@ a16 c16 c'8 e'8 c'8 a'16 g'16 c8 c16 c'16 g8 | g'4. d'16 a'16 g'8 a8 g8 g'8 | c'
 trombone = {
   \global
   \set Staff.instrumentName = #"Trombone"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"trombone"
   \clef treble
+  \transposition bes
   <<
     \tbone
   >>
@@ -623,14 +629,15 @@ d16 c'16 d8 g8 e'8 g16 a'16 g8 e16 c'16 g8 | d'8. e'16 g8. a16 a4. a'8 | c'16 c1
 euphonium = {
   \global
   \set Staff.instrumentName = #"Euphonium"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"tuba"
   \clef treble
+  \transposition bes,
   <<
     \euph
   >>
 }
 
-bass = \transpose c a'' {
+bass = \transpose c a {
   \Key
     % commercial_street_at_barratts
 \mark \markup { "00:00" }
@@ -711,8 +718,9 @@ d'4. d16 e16 c'8 a'8 c'8 a'8 | c8. c16 e8. g'16 g4. g8 | e8 g'8 e'4 c8 e'8 e'8 c
 tuba = {
   \global
   \set Staff.instrumentName = #"Eb Bass"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"tuba"
   \clef treble
+  \transposition bes,
   <<
     \bass
   >>

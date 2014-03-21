@@ -9,11 +9,11 @@
 %%%%%%%%%%%% Keys and stuff %%%%%%%%%%%%%%%%%
 
 global = { \time 4/4 }
-Key = { \key bes \major }
+Key = { \key c \major }
 
 %%%%%%%%%%%% Instrumentation %%%%%%%%%%%%%%%%
 
-cone = \transpose c d {
+cone = \transpose c d' {
   \Key
     $briggate_at_mcdonalds
 }
@@ -22,13 +22,14 @@ cornetone = {
   \global
   \set Staff.instrumentName = #"Cornet 1"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \cone
   >>
 }
 
-ctwo = \transpose c d {
+ctwo = \transpose c d' {
   \Key
     $albion_street_north
 }
@@ -37,13 +38,14 @@ cornettwo = {
   \global
   \set Staff.instrumentName = #"Cornet 2"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \ctwo
   >>
 }
 
-flug = \transpose c d {
+flug = \transpose c d' {
   \Key
     $albion_street_south
 }
@@ -52,6 +54,7 @@ flugelhorn = {
   \global
   \set Staff.instrumentName = #"Flugelhorn"
   \set Staff.midiInstrument = #"trumpet"
+  \transposition bes'
   \clef treble
   <<
     \flug
@@ -66,7 +69,8 @@ horn = \transpose c a {
 tenorhorn = {
   \global
   \set Staff.instrumentName = #"Tenor Horn"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"french horn"
+  \transposition ees'
   \clef treble
   <<
     \horn
@@ -81,7 +85,8 @@ bari = \transpose c d {
 baritone = {
   \global
   \set Staff.instrumentName = #"Baritone"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"french horn"
+  \transposition bes
   \clef treble
   <<
     \bari
@@ -97,8 +102,9 @@ tbone = \transpose c d {
 trombone = {
   \global
   \set Staff.instrumentName = #"Trombone"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"trombone"
   \clef treble
+  \transposition bes
   <<
     \tbone
   >>
@@ -112,14 +118,15 @@ euph = \transpose c d {
 euphonium = {
   \global
   \set Staff.instrumentName = #"Euphonium"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"tuba"
   \clef treble
+  \transposition bes,
   <<
     \euph
   >>
 }
 
-bass = \transpose c a'' {
+bass = \transpose c a {
   \Key
     $commercial_street_at_barratts
 }
@@ -127,8 +134,9 @@ bass = \transpose c a'' {
 tuba = {
   \global
   \set Staff.instrumentName = #"Eb Bass"
-  \set Staff.midiInstrument = #"trumpet"
+  \set Staff.midiInstrument = #"tuba"
   \clef treble
+  \transposition bes,
   <<
     \bass
   >>
