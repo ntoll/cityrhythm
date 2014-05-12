@@ -8,8 +8,19 @@ data = json.load(open('renamed_weekly.json'))
 places = data.keys()
 
 scales = [
+    ['aes', 'bes', 'c', 'ees', 'f'],
+    ['bes', 'c', 'ees', 'f', 'g'],
+    ['bes', 'c', 'd', 'f', 'g'],
+    ['a', 'c', 'd', 'f', 'g'],
     ['a', 'c', 'd', 'e', 'g'],
-    #['a', 'b', 'c', 'e', 'g'],
+    ['a', 'b', 'd', 'e', 'g'],
+    ['a', 'b', 'd', 'e', 'fis'],
+    ['a', 'b', 'd', 'e', 'g'],
+    ['a', 'c', 'd', 'e', 'g'],
+    ['a', 'c', 'd', 'f', 'g'],
+    ['bes', 'c', 'd', 'f', 'g'],
+    ['bes', 'c', 'ees', 'f', 'g'],
+    ['aes', ],
 ]
 
 melodies = {}
