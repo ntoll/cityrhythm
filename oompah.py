@@ -31,40 +31,75 @@ melodies = {}
 
 # ordered set of rhythmn patterns, increasing in intensity
 patterns = [
+    #v.slow
     [
         'r1'.split(),
         'r2 2'.split(),
         '2 r2'.split(),
-        'r2. 4'.split(),
+        '2 2'.split(),
+        'r4 2 r4'.split(),
     ],
-    #slow'
+    #slow
     [
         '1'.split(),
         '2 2'.split(),
         '4 2 4'.split(),
-        '2 4 4'.split()
+        '2 4 4'.split(),
+        'r2 4 4'.split(),
+        '2 r2'.split(),
+        'r2 2'.split(),
+        '4 r4 2'.split(),
+        '4 r4 4 r4'.split(),
+        'r4 4 2'.split(),
     ],
     #medium
     [
         '4 4 2'.split(),
         '4. 8 4. 8'.split(),
         '2 8 8 4'.split(),
-        '4 8 8 2'.split()
+        '4 8 8 2'.split(),
+        '8 8 4 8 8 4'.split(),
+        '4 r4 8 8 r4'.split(),
+        'r4 8 8 8 8 8 8'.split(),
+        'r4 8 8 r8 8 4'.split(),
+        '2 2'.split(),
+        '8 4. 8 4.'.split(),
+        '8 8 r4 8 8 r4'.split(),
+        '4. 8 4 r4'.split(),
     ],
     #fast
     [
         '8. 16 8. 16 4. 8'.split(),
         '4. 16 16 8 8 8 8'.split(),
         '16 16 8 8 8 16 16 8 16 16 8'.split(),
-        '8 8 4 8 8 8 8'.split()
+        '8 8 4 8 8 8 8'.split(),
+        '8 r8 r8 16 16 8 8 4'.split(),
+        'r8 16 16 8 8 8 8 8 8'.split(),
+        '8. 16 8. 16 8. 16 8. 16'.split(),
+        '4. 8 4 r4'.split(),
+        '16 16 16 16 r4 16 16 16 16 r4'.split(),
+        '8 8 8 8 8 8 8 8'.split(),
+        'r4 4 4 4'.split(),
+        '8 4 16 16 16 16 4 8'.split(),
+        'r2 8 16 16 4'.split(),
+        '8 8 16 16 8 r2'.split(),
     ],
     #crazy
     [
-        ['8', '\\times 2/3 { %s16', '16', '16 }', '16', '16', '16', '16',
-         '8', '8', '8', '8'],
         '4 8. 16 8 4 8'.split(),
         '16 16 16 16 8 8 16 16 16 16 8 8'.split(),
-        '16 16 16 16 4 8 16 16 8 8'.split()
+        '16 16 16 16 4 8 16 16 8 8'.split(),
+        '16 16 16 16 r4 16 16 16 16 r4'.split(),
+        '4. 16 16 8 4 8'.split(),
+        '8 8 16 16 16 16 8 8 16 16 16 16'.split(),
+        '16 16 16 16 16 16 16 16 16 16 16 16 16 16 16 16'.split(),
+        '8 8 8 8 8 8 8 8'.split(),
+        'r2 16 16 8 8 16 16'.split(),
+        '8 16 16 8 16 16 r2'.split(),
+        'r2 16 16 8 16 16 8'.split(),
+        '16 8 16 16 8 16 16 8 16 r4'.split(),
+        '8 4 8 16 16 r8 r4'.split(),
+        'r4 16 16 16 16 r4 16 16 16 16'.split(),
     ],
 ]
 
