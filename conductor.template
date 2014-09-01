@@ -1,0 +1,38 @@
+#(set-default-paper-size "a4" 'landscape)
+\version "2.14.2"
+\include "score.ly"
+
+%%%%%%%%% It All Goes Together Here %%%%%%%%%%%%%%%%%%%%%%
+
+\score {
+  <<
+      \new StaffGroup <<
+          \new Staff = "sop" \sop
+          \new Staff = "cornetone" \cornetone
+          \new Staff = "cornettwo" \cornettwo
+          \new Staff = "flugelhorn" \flugelhorn
+      >>
+      \new StaffGroup <<
+          \new Staff = "tenorhorn" \tenorhorn
+          \new Staff = "baritone" \baritone
+      >>
+      \new Staff = "trombone" \trombone
+      \new Staff = "euphonium" \euphonium
+      \new StaffGroup <<
+          \new Staff = "tubaeflat" \tubaeflat
+          \new Staff = "tubabflat" \tubabflat
+      >>
+      \new Staff = "tubularbells" \tubularbells
+
+  >>
+  \layout {
+    \context { \Staff \RemoveEmptyStaves }
+    \context {
+      \Score
+      \override BarNumber #'padding = #3
+      \override RehearsalMark #'padding = #2
+      skipBars = ##t
+    }
+  }
+  \midi { }
+}

@@ -1,0 +1,11 @@
+\header {
+  title = "The Rhythm of the City"
+  subtitle = "(A musical representation of footfall data through the medium of Brass Band)"
+  composer = "Composed by the People of Leeds"
+  instrument = "$instrument"
+}
+
+\version "2.14.2"
+\include "score.ly"
+#(set-default-paper-size "a4" 'portrait)
+\score { \$part}

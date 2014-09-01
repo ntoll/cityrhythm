@@ -1,5 +1,3 @@
-#(set-default-paper-size "a4" 'landscape)
-
 \header {
   title = "The Rhythm of the City"
   subtitle = "(A musical representation of footfall data through the medium of Brass Band)"
@@ -22,7 +20,7 @@ sop = \transpose c a' {
 
 sop = {
   \global
-  \set Staff.instrumentName = #"Sporano Cornet"
+  \set Staff.instrumentName = #"Sop. Cornet"
   \set Staff.midiInstrument = #"trumpet"
   \transposition ees'
   \clef treble
@@ -54,7 +52,7 @@ ctwo = \transpose c d' {
 
 cornettwo = {
   \global
-  \set Staff.instrumentName = #"Flugel & Rep"
+  \set Staff.instrumentName = #"Cornets 2 & 3"
   \set Staff.midiInstrument = #"trumpet"
   \transposition bes'
   \clef treble
@@ -70,7 +68,7 @@ flug = \transpose c d' {
 
 flugelhorn = {
   \global
-  \set Staff.instrumentName = #"Cornets 2 & 3"
+  \set Staff.instrumentName = #"Flugel & Rep."
   \set Staff.midiInstrument = #"trumpet"
   \transposition bes'
   \clef treble
@@ -190,39 +188,4 @@ tubularbells= {
   <<
     \bells
   >>
-}
-
-%%%%%%%%% It All Goes Together Here %%%%%%%%%%%%%%%%%%%%%%
-
-\score {
-  <<
-      \new StaffGroup <<
-          \new Staff = "sop" \sop
-          \new Staff = "cornetone" \cornetone
-          \new Staff = "cornettwo" \cornettwo
-          \new Staff = "flugelhorn" \flugelhorn
-      >>
-      \new StaffGroup <<
-          \new Staff = "tenorhorn" \tenorhorn
-          \new Staff = "baritone" \baritone
-      >>
-      \new Staff = "trombone" \trombone
-      \new Staff = "euphonium" \euphonium
-      \new StaffGroup <<
-          \new Staff = "tubaeflat" \tubaeflat
-          \new Staff = "tubabflat" \tubabflat
-      >>
-      \new Staff = "tubularbells" \tubularbells
-
-  >>
-  \layout {
-    \context { \Staff \RemoveEmptyStaves }
-    \context {
-      \Score
-      \override BarNumber #'padding = #3
-      \override RehearsalMark #'padding = #2
-      skipBars = ##t
-    }
-  }
-  \midi { }
 }

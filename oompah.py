@@ -8,7 +8,9 @@ import json
 # make sure and use of random is controllably deterministic
 random.seed(sum(ord(c) for c in "leeds"))
 
-t = Template(open('template.ly').read())
+score_template = Template(open('score.template').read())
+conductor_template = Template(open('conductor.template').read())
+part_template = Template(open('part.template').read())
 all_data = json.load(open('renamed_weekly.json'))
 
 scales = [
@@ -123,6 +125,55 @@ patterns = [
         'r4 16 16 16 16 r4 16 16 16 16'.split(),
     ],
 ]
+
+
+parts = {
+    'soprano_cornet': {
+        'instrument': 'Soprano Cornet',
+        'part': 'sop',
+        },
+    'solo_cornet': {
+        'instrument': 'Solo Cornet',
+        'part': 'cornetone',
+        },
+    'flugel_repiano': {
+        'instrument': 'Flugelhorn / Repiano',
+        'part': 'flugelhorn',
+        },
+    'cornets_2_3': {
+        'instrument': 'Cornets 2 & 3',
+        'part': 'cornettwo',
+        },
+    'tenor_horns': {
+        'instrument': 'Tenor Horns',
+        'part': 'tenorhorn',
+        },
+    'baritone': {
+        'instrument': 'Baritone Horns',
+        'part': 'baritone',
+        },
+    'trombones': {
+        'instrument': 'Trombones',
+        'part': 'trombone',
+        },
+    'euphonium': {
+        'instrument': 'Euphonium',
+        'part': 'euphonium',
+        },
+    'EEb_bass': {
+        'instrument': 'Eb Bass',
+        'part': 'tubaeflat',
+        },
+    'BBb_bass': {
+        'instrument': 'Bb Bass',
+        'part': 'tubabflat',
+        },
+    'bells': {
+        'instrument': 'Tubular Bells',
+        'part': 'tubularbells',
+        }
+}
+
 
 # intensity bucket thresholds
 thresholds = [0] * len(patterns)
@@ -244,11 +295,19 @@ for count, oclock in enumerate(chimes):
     bongs = ' '.join(baz.split(' ')[::-1])
 
     melody = bongs.strip() + five_bars_rest
-    melodies['bells'] += '\\mark \\markup { "%s" }\n%s\n' % (
-            hour, melody.rstrip('|'))
+    melodies['bells'] += '\\mark \\markup { "%02d:00" }\n%s\n' % (
+            count, melody.rstrip('|'))
 melodies['bells'] += 'bes1 \\bar "|."'
 
-result = t.substitute(melodies)
+score = score_template.substitute(melodies)
 
-with open('result.ly', 'wb') as output:
-    output.write(result)
+with open('score.ly', 'wb') as output:
+    output.write(score)
+
+with open('conductor.ly', 'wb') as output:
+    output.write(conductor_template.substitute({}))
+
+for filename, data in parts.iteritems():
+    with open('%s.ly' % filename, 'wb') as output:
+        part = part_template.substitute(data)
+        output.write(part)
