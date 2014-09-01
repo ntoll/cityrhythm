@@ -1,0 +1,31 @@
+Last year my friend Holger gave a keynote at Europython. It was titled, "The
+Return of Peer-to-Peer Computing".
+
+* Provide a reasoned philosophical analysis:
+    * The effect of technical architecture on power / politics.
+    * The ethics of surveillance.
+    * The responsibility of the developer.
+    * Reasonable / constructive progress / non-conformance.
+
+* Move the philosophical analysis to a technical context then
+  describe how we asked ourselves two questions:
+    1. what are the fundamental elements / abstractions for p2p?
+    2. assuming answers to 1, what can we build that is useful?
+
+* Describe three solutions we, as a group, considered / discussed:
+    1. Implications of Bitcoin. (Global ledger)
+    2. P2P chat. (Decentralised messaging)
+    3. DHT / Drogulus (P2P naming / datastore)
+
+* Conclude by asking three questions:
+    1. On what side of the fence do you sit wrt centralisation?
+    2. Given where you "sit", what is your decentralised must have
+       application? (e.g. for you it's chat, for me a datastore, for
+       all it must probably be economically viable.)
+    3. What can you usefully do?
+
+* I'd like attendees to be asking themselves three questions:
+    1. What am I doing now that supports the centralised internet (and
+       do I agree with it)..?
+    2. What do I need to think about / learn..?
+    3. What can I usefully do..?
