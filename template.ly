@@ -1,3 +1,5 @@
+#(set-default-paper-size "a4" 'landscape)
+
 \header {
   title = "The Rhythm of the City"
   subtitle = "(A musical representation of footfall data through the medium of Brass Band)"
@@ -9,9 +11,25 @@
 %%%%%%%%%%%% Keys and stuff %%%%%%%%%%%%%%%%%
 
 global = { \time 4/4 }
-Key = { \key c \major }
+Key = { \key bes \major }
 
 %%%%%%%%%%%% Instrumentation %%%%%%%%%%%%%%%%
+
+sop = \transpose c a' {
+  \Key
+    $briggate_at_mcdonalds
+}
+
+sop = {
+  \global
+  \set Staff.instrumentName = #"Sporano Cornet"
+  \set Staff.midiInstrument = #"trumpet"
+  \transposition ees'
+  \clef treble
+  <<
+    \sop
+  >>
+}
 
 cone = \transpose c d' {
   \Key
@@ -20,7 +38,7 @@ cone = \transpose c d' {
 
 cornetone = {
   \global
-  \set Staff.instrumentName = #"Cornet 1"
+  \set Staff.instrumentName = #"Solo Cornet"
   \set Staff.midiInstrument = #"trumpet"
   \transposition bes'
   \clef treble
@@ -36,7 +54,7 @@ ctwo = \transpose c d' {
 
 cornettwo = {
   \global
-  \set Staff.instrumentName = #"Cornet 2"
+  \set Staff.instrumentName = #"Flugel & Rep"
   \set Staff.midiInstrument = #"trumpet"
   \transposition bes'
   \clef treble
@@ -52,7 +70,7 @@ flug = \transpose c d' {
 
 flugelhorn = {
   \global
-  \set Staff.instrumentName = #"Flugelhorn"
+  \set Staff.instrumentName = #"Cornets 2 & 3"
   \set Staff.midiInstrument = #"trumpet"
   \transposition bes'
   \clef treble
@@ -68,24 +86,24 @@ horn = \transpose c a {
 
 tenorhorn = {
   \global
-  \set Staff.instrumentName = #"Tenor Horn"
-  \set Staff.midiInstrument = #"french horn"
-  \transposition ees'
+  \set Staff.instrumentName = #"Tenor Horns"
+  \set Staff.midiInstrument = #"tuba"
+  \transposition ees
   \clef treble
   <<
     \horn
   >>
 }
 
-bari = \transpose c d {
+bari = \transpose c d' {
   \Key
-    $briggate
+    $headrow
 }
 
 baritone = {
   \global
   \set Staff.instrumentName = #"Baritone"
-  \set Staff.midiInstrument = #"french horn"
+  \set Staff.midiInstrument = #"tuba"
   \transposition bes
   \clef treble
   <<
@@ -94,14 +112,14 @@ baritone = {
 }
 
 
-tbone = \transpose c d {
+tbone = \transpose c d' {
   \Key
     $commercial_street_at_lush
 }
 
 trombone = {
   \global
-  \set Staff.instrumentName = #"Trombone"
+  \set Staff.instrumentName = #"Trombones"
   \set Staff.midiInstrument = #"trombone"
   \clef treble
   \transposition bes
@@ -110,9 +128,9 @@ trombone = {
   >>
 }
 
-euph = \transpose c d {
+euph = \transpose c d' {
   \Key
-    $headrow
+    $briggate
 }
 
 euphonium = {
@@ -120,31 +138,48 @@ euphonium = {
   \set Staff.instrumentName = #"Euphonium"
   \set Staff.midiInstrument = #"tuba"
   \clef treble
-  \transposition bes,
+  \transposition bes
   <<
     \euph
   >>
 }
 
-bass = \transpose c a {
+eflatbass = \transpose c a {
   \Key
     $commercial_street_at_barratts
 }
 
-tuba = {
+tubaeflat = {
   \global
   \set Staff.instrumentName = #"Eb Bass"
   \set Staff.midiInstrument = #"tuba"
   \clef treble
-  \transposition bes,
+  \transposition ees,,
   <<
-    \bass
+    \eflatbass
+  >>
+}
+
+
+bflatbass = \transpose c d' {
+  \Key
+    $commercial_street_at_barratts
+}
+
+tubabflat = {
+  \global
+  \set Staff.instrumentName = #"Bb Bass"
+  \set Staff.midiInstrument = #"tuba"
+  \clef treble
+  \transposition bes,,
+  <<
+    \bflatbass
   >>
 }
 
 bells = {
   \Key
-    c1 | c | c |
+    $bells
 }
 
 tubularbells= {
@@ -161,17 +196,23 @@ tubularbells= {
 
 \score {
   <<
-    \new StaffGroup = "Band" <<
-      \new Staff = "cornetone" \cornetone
-      \new Staff = "cornettwo" \cornettwo
-      \new Staff = "flugelhorn" \flugelhorn
-      \new Staff = "tenorhorn" \tenorhorn
-      \new Staff = "baritone" \baritone
+      \new StaffGroup <<
+          \new Staff = "sop" \sop
+          \new Staff = "cornetone" \cornetone
+          \new Staff = "cornettwo" \cornettwo
+          \new Staff = "flugelhorn" \flugelhorn
+      >>
+      \new StaffGroup <<
+          \new Staff = "tenorhorn" \tenorhorn
+          \new Staff = "baritone" \baritone
+      >>
       \new Staff = "trombone" \trombone
       \new Staff = "euphonium" \euphonium
-      \new Staff = "tuba" \tuba
+      \new StaffGroup <<
+          \new Staff = "tubaeflat" \tubaeflat
+          \new Staff = "tubabflat" \tubabflat
+      >>
       \new Staff = "tubularbells" \tubularbells
-    >>
 
   >>
   \layout {

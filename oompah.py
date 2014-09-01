@@ -13,23 +13,44 @@ all_data = json.load(open('renamed_weekly.json'))
 
 scales = [
     ['aes', 'bes', 'c', 'ees', 'f'],
+    ['aes', 'bes', 'c', 'ees', 'f'],
+    ['bes', 'c', 'ees', 'f', 'g'],
     ['bes', 'c', 'ees', 'f', 'g'],
     ['bes', 'c', 'd', 'f', 'g'],
+    ['bes', 'c', 'd', 'f', 'g'],
+    ['a', 'c', 'd', 'f', 'g'],
     ['a', 'c', 'd', 'f', 'g'],
     ['a', 'c', 'd', 'e', 'g'],
+    ['a', 'c', 'd', 'e', 'g'],
+    ['a', 'b', 'd', 'e', 'g'],
     ['a', 'b', 'd', 'e', 'g'],
     ['a', 'b', 'd', 'e', 'fis'],
+    ['a', 'b', 'd', 'e', 'fis'],
+    ['a', 'b', 'd', 'e', 'g'],
     ['a', 'b', 'd', 'e', 'g'],
     ['a', 'c', 'd', 'e', 'g'],
+    ['a', 'c', 'd', 'e', 'g'],
+    ['a', 'c', 'd', 'f', 'g'],
     ['a', 'c', 'd', 'f', 'g'],
     ['bes', 'c', 'd', 'f', 'g'],
+    ['bes', 'c', 'd', 'f', 'g'],
     ['bes', 'c', 'ees', 'f', 'g'],
-    ['aes', ],
+    ['bes', 'c', 'ees', 'f', 'g'],
+    ['bes', ],
 ]
 
 melodies = {}
 
-# ordered set of rhythmn patterns, increasing in intensity
+# ordered set of dynamic markings, increasing in intensity
+dynamics = [
+    'pp', # v.slow
+    'p', # slow
+    'mp', # medium
+    'mf', # fast
+    'f', # crazy
+]
+
+# ordered set of rhythm patterns, increasing in intensity
 patterns = [
     #v.slow
     [
@@ -106,6 +127,19 @@ patterns = [
 # intensity bucket thresholds
 thresholds = [0] * len(patterns)
 
+def threshold(data):
+    """
+    Returns a numeric indicator or the threshold "position" to use with
+    patterns and dynamics.
+    """
+    mean = sum(data) // len(data)
+    # pick intensity based on mean value for this hour based across thresholds
+    # for all data
+    for i, threshold in enumerate(thresholds):
+        if mean < threshold:
+            break
+    return i
+
 
 def pitch(data, scale):
     """Generate notes from the scale driven by the data.
@@ -120,16 +154,10 @@ def pitch(data, scale):
             scale = new_scale
 
 
-def rhythmn(data, mn, mx):
+def rhythm(data, mn, mx):
     """Produce note durations from provided patterns based on mean intensity"""
-    mean = sum(data) // len(data)
-    # pick intensity based on mean value for this hour based across thresholds
-    # for all data
-    for i, threshold in enumerate(thresholds):
-        if mean < threshold:
-            break
+    i = threshold(data)
     pattern = patterns[i]
-    print "intensity %d " % i
 
     # use the data to chose which pattern, so the process is deterministic
     index = 0
@@ -141,11 +169,11 @@ def rhythmn(data, mn, mx):
 
 
 def voice(data, scale, mn, mx, length=8):
-    """Generate a voice from the data, combining pitch and rhythmn"""
+    """Generate a voice from the data, combining pitch and rhythm"""
 
     bars = 0
     note_iter = pitch(data, scale)
-    for duration in rhythmn(data, mn, mx):
+    for duration in rhythm(data, mn, mx):
         if duration is None:
             bars += 1
             yield '|'
@@ -181,13 +209,44 @@ print MIN, MAX, thresholds
 for place, hours in all_data.items():
     melodies[place] = "%% %s\n" % place
     print place
+    scale_counter = 0
     for hour, data in sorted(hours.items()):
-        scale = scales[0]
+        intensity = threshold(data)
         print "  %s " % hour,
-        melody = " ".join(voice(data, scale, MIN, MAX))
-        melodies[place] += '\\mark \\markup { "%s" }\n%s \\bar "||"\n\\break\n' % (
+        print "intensity %d " % intensity
+        scale = scales[scale_counter]
+        scale_counter += 1
+        v = list(voice(data, scale, MIN, MAX))
+        v[0] = v[0] + "\\%s" % dynamics[intensity]
+        melody = " ".join(v)
+        melodies[place] += '\\mark \\markup { "%s" }\n%s\n' % (
             hour, melody.rstrip('|'))
+    melodies[place] += 'bes1 \\bar "|."'
 
+# Bell part
+chimes = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 1, 2, 3, 4, 5, 6, 7, 8, 9,
+          10, 11]
+
+melodies['bells'] = "%% bells\n"
+
+for count, oclock in enumerate(chimes):
+    five_bars_rest = 'r1 r1 r1 r1 r1'
+    bong = "%s'4 " % random.choice(scales[count])
+    bongs = ''
+    for i in range(12):
+        if i < oclock:
+            bongs += bong
+        else:
+            bongs += 'r4 '
+    foo = bongs.split(' ')[::-1]
+    bar = ' '.join(foo)
+    baz = bar.replace('r4 r4 r4 r4', 'r1')
+    bongs = ' '.join(baz.split(' ')[::-1])
+
+    melody = bongs.strip() + five_bars_rest
+    melodies['bells'] += '\\mark \\markup { "%s" }\n%s\n' % (
+            hour, melody.rstrip('|'))
+melodies['bells'] += 'bes1 \\bar "|."'
 
 result = t.substitute(melodies)
 
