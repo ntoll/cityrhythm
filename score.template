@@ -102,7 +102,7 @@ baritone = {
   \global
   \set Staff.instrumentName = #"Baritone"
   \set Staff.midiInstrument = #"tuba"
-  \transposition bes
+  \transposition bes,
   \clef treble
   <<
     \bari
@@ -120,7 +120,7 @@ trombone = {
   \set Staff.instrumentName = #"Trombones"
   \set Staff.midiInstrument = #"trombone"
   \clef treble
-  \transposition bes
+  \transposition bes,
   <<
     \tbone
   >>
@@ -136,7 +136,7 @@ euphonium = {
   \set Staff.instrumentName = #"Euphonium"
   \set Staff.midiInstrument = #"tuba"
   \clef treble
-  \transposition bes
+  \transposition bes,
   <<
     \euph
   >>
