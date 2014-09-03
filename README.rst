@@ -26,14 +26,14 @@ The piece begins at midnight in a quiet mood but as the music progresses
 wake up to a climax during the working day before returning to a placid
 state of affairs as the evening closes the musical proceedings.
 
-The software reads the raw footfall data turns it into the musical score for
-the piece.
+The software reads the raw footfall data and turns it into the musical score
+for the piece.
 
 Requirements
 ------------
 
-Python 2.7+
-Lilypond 2.14.2+
+* Python 2.7+
+* Lilypond 2.14.2+
 
 Usage
 -----
