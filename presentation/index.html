@@ -111,7 +111,91 @@
                     <img src="images/hackday.png"/>
                 </section>
                 <section>
-                    <h1>Data Analysis</h1>
+                    <h1>Data <s>Analysis</s> Munging</h1>
+                </section>
+                <section>
+                    <h3>WHAT IS DATA I DONT EVEN</h3>
+                    <img src="images/data.png"/>
+                </section>
+                <section>
+                    <h3>Time Travel FTW</h3>
+                    <pre><code class="python">
+    WEEK = {}
+    WEND = {}
+    for f in glob.glob('*.csv'):
+        voice = f.split('.')[0].lower().replace(' ', '_')
+        WEEK[voice] = defaultdict(list)
+        WEND[voice] = defaultdict(list)
+        with open(f) as fp:
+            for row in csv.DictReader(fp):
+                t = row['Hour']
+                d = row['WeekDay']
+                if d.lower() in ('saturday', 'sunday'):
+                    data = WEND
+                else:
+                    data = WEEK
+                data[voice][t].append(int(row['Count']))
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Pitch</h3>
+                    <pre><code class="python">
+    def pitch(data, scale):
+    """Generate notes from the scale driven by the data."""
+        index = 0
+        for d in data:
+            index = (index + d) % len(scale)
+            yield scale[index]
+                    </code></pre>
+                </section>
+                <section>
+                    <h3>Duration</h3>
+                    <pre><code class="python">
+    def rhythm(data, mn, mx):
+        """Produce note durations from provided patterns,
+        based on mean intensity
+        """
+        i = threshold(data)
+        pattern = patterns[i]
+
+        # use the data to chose which pattern,
+        # so the process is deterministic
+        index = 0
+        for d in data:
+            index = (index + d) % len(pattern)
+            for duration in pattern[index]:
+                yield duration
+            yield None  # indicates a bar has been produced
+                    </code></pre>
+                    <aside class="notes">
+                        Nick: this starts to tread on the rhythm/intensity
+                        ideas which I assume you want to cover, so I plan to
+                        skim over the deails and say something like "Nick will
+                        say more in a minute" </aside>
+                </section>
+                <section>
+                    <h3>Voice of the Street</h3>
+                    <pre><code class="python" style="max-height: 500px">
+    def voice(data, scale, mn, mx, length=8):
+        """Generate a voice from the data, combining pitch and rhythm"""
+        bars = 0
+        note_iter = pitch(data, scale)
+        for duration in rhythm(data, mn, mx):
+            if duration is None:
+                bars += 1
+                yield '|'
+                if bars == length:
+                    raise StopIteration()
+            elif duration[0] == 'r':
+                yield duration
+            else:
+                note = next(note_iter)
+                if '%s' in duration:
+                    # more complex templated duration (e.g. tuplets)
+                    yield duration % note
+                else:
+                    yield "%s%s" % (note, duration)
+                    </code></pre>
                 </section>
                 <section>
                     <h1>Musical<br/>Mischief</h1>
